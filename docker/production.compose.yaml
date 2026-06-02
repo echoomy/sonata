@@ -1,0 +1,50 @@
+name: "sonata-production"
+
+services:
+  manager:
+    build:
+      context: "./../"
+      target: "production"
+      dockerfile: "./docker/images/manager.dockerfile"
+    environment:
+      DOMAIN_NAME: "${REPOSITORY__DOMAIN_NAME}"
+      DOMAIN_EMAIL: "${REPOSITORY__DOMAIN_EMAIL}"
+      YANDEX_CLOUD_FOLDER_ID: "${REPOSITORY__YANDEX_CLOUD_FOLDER_ID}"
+      YANDEX_CLOUD_IAM_TOKEN: "${REPOSITORY__YANDEX_CLOUD_IAM_TOKEN}"
+    volumes:
+      - "certificates:/var/lib/lego/"
+    restart: "unless-stopped"
+
+  proxy:
+    build:
+      context: "./../"
+      target: "production"
+      dockerfile: "./docker/images/proxy.dockerfile"
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - "certificates:/var/lib/lego/"
+    environment:
+      - "DOMAIN_NAME=${REPOSITORY__DOMAIN_NAME}"
+      - "DOMAIN_EMAIL=${REPOSITORY__DOMAIN_EMAIL}"
+      - "PRIVATE_KEY=${REPOSITORY__XRAY_PRIVATE_KEY}"
+      - "CLIENT_UUID=${REPOSITORY__XRAY_CLIENT_UUID}"
+      - "CLIENT_SHORT_ID=${REPOSITORY__XRAY_CLIENT_SHORT_ID}"
+    depends_on:
+      - "server"
+    restart: "unless-stopped"
+
+  server:
+    build:
+      context: "./../"
+      target: "production"
+      dockerfile: "./docker/images/server.dockerfile"
+    volumes:
+      - "certificates:/var/lib/lego/"
+    environment:
+      - "DOMAIN_NAME=${REPOSITORY__DOMAIN_NAME}"
+    restart: "unless-stopped"
+
+volumes:
+  certificates:
