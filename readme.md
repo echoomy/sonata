@@ -26,6 +26,4 @@ docker compose -f ./docker/production.compose.yaml up -d
 
 ## Credits
 
-Made by Egor Chumichev.
-
-With love lost and dreams left unchased.
+Made by Egor Chumichev. With love lost and dreams unchased.
