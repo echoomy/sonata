@@ -7,5 +7,5 @@ while true; do
 	./lego run --path /var/lib/lego/ --dns yandexcloud --email $DOMAIN_EMAIL --domains $DOMAIN_NAME --dns.resolvers 8.8.8.8:53 --accept-tos
 
   echo "[lego] Sleeping 24h..."
-  sleep 20s
+  sleep 24h
 done
