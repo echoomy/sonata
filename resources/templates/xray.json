@@ -33,7 +33,10 @@
         },
         "xhttpSettings": {
           "path": "${CLIENT_XHTTP_PATH}",
-          "mode": "auto"
+          "mode": "auto",
+          "extra": {
+            "xPaddingBytes": "100-1000"
+          }
         }
       }
     }
