@@ -32,6 +32,7 @@ services:
       - "PRIVATE_KEY=${REPOSITORY__XRAY_PRIVATE_KEY}"
       - "CLIENT_UUID=${REPOSITORY__XRAY_CLIENT_UUID}"
       - "CLIENT_SHORT_ID=${REPOSITORY__XRAY_CLIENT_SHORT_ID}"
+      - "CLIENT_XHTTP_PATH=${REPOSITORY__XRAY_CLIENT_XHTTP_PATH}"
     depends_on:
       - "server"
     restart: "unless-stopped"
