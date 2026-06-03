@@ -7,6 +7,7 @@ services:
       target: "production"
       dockerfile: "./docker/images/manager.dockerfile"
     environment:
+      ACME_PROVIDER_NAME: "${REPOSITORY__ACME_PROVIDER_NAME}"
       DOMAIN_NAME: "${REPOSITORY__DOMAIN_NAME}"
       DOMAIN_EMAIL: "${REPOSITORY__DOMAIN_EMAIL}"
       YANDEX_CLOUD_FOLDER_ID: "${REPOSITORY__YANDEX_CLOUD_FOLDER_ID}"
