@@ -1,8 +1,11 @@
-name: "sonata-production"
+name: "sonata-development"
 
 services:
   manager:
-    image: "ghcr.io/echoomy/sonata-manager:production"
+    build:
+      context: "./../"
+      target: "development"
+      dockerfile: "./docker/images/manager.dockerfile"
     environment:
       ACME_PROVIDER_NAME: "${REPOSITORY__ACME_PROVIDER_NAME}"
       DOMAIN_NAME: "${REPOSITORY__DOMAIN_NAME}"
@@ -14,7 +17,10 @@ services:
     restart: "unless-stopped"
 
   proxy:
-    image: "ghcr.io/echoomy/sonata-proxy:production"
+    build:
+      context: "./../"
+      target: "development"
+      dockerfile: "./docker/images/proxy.dockerfile"
     ports:
       - "443:443"
       - "80:80"
@@ -32,7 +38,10 @@ services:
     restart: "unless-stopped"
 
   server:
-    image: "ghcr.io/echoomy/sonata-server:production"
+    build:
+      context: "./../"
+      target: "development"
+      dockerfile: "./docker/images/server.dockerfile"
     volumes:
       - "certificates:/var/lib/lego/"
     environment:
