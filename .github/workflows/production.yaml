@@ -1,0 +1,36 @@
+name: "Build container images"
+
+on:
+  push:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        image: ["server", "proxy", "manager"]
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v6"
+
+      - name: "Login to registry"
+        uses: "docker/login-action@v4"
+        with:
+          registry: "ghcr.io"
+          username: "${{ github.actor }}"
+          password: "${{ github.token }}"
+
+      - name: "Prepare Docker Buildx"
+        uses: "docker/setup-buildx-action@v4"
+
+      - name: "Run Docker Buildx"
+        uses: "docker/build-push-action@v7"
+        with:
+          file: "./docker/images/${{ matrix.image }}.dockerfile"
+          target: "production"
+          context: "."
+          push: true
+          provenance: false
+          tags: "ghcr.io/${{ github.repository }}-${{ matrix.image }}:production"
